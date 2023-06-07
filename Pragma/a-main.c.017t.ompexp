@@ -1,0 +1,183 @@
+
+;; Function foo (foo, funcdef_no=6, decl_uid=3759, cgraph_uid=7, symbol_order=6)
+
+
+OMP region tree
+
+bb 2: gimple_omp_parallel
+    bb 3: gimple_omp_for
+    bb 4: GIMPLE_OMP_CONTINUE
+    bb 5: GIMPLE_OMP_RETURN
+bb 6: GIMPLE_OMP_RETURN
+
+Added new low gimple function foo._omp_fn.0 to callgraph
+Introduced new external node (__builtin_GOMP_loop_nonmonotonic_dynamic_start/9).
+Introduced new external node (rand/10).
+Introduced new external node (usleep/11).
+Introduced new external node (__builtin_GOMP_loop_nonmonotonic_dynamic_next/12).
+Introduced new external node (__builtin_GOMP_loop_end_nowait/13).
+
+;; Function foo._omp_fn.0 (foo._omp_fn.0, funcdef_no=8, decl_uid=3785, cgraph_uid=9, symbol_order=8)
+
+void foo._omp_fn.0 (struct .omp_data_s.1 & restrict .omp_data_i)
+{
+  _Bool D.3823;
+  unsigned int D.3822;
+  int D.3821;
+  int randomnumber;
+  int D.3819;
+  int D.3818;
+  int D.3817;
+  long int .iend0.7;
+  int i;
+  long int .istart0.6;
+  _Bool D.3813;
+  long int .iend0.5;
+  long int .istart0.4;
+  long int D.3810;
+  long int D.3809;
+  int M.2;
+  int N.0;
+  int N;
+  int M;
+
+  <bb 12> :
+
+  <bb 3> :
+  M = .omp_data_i->M;
+  N = .omp_data_i->N;
+  N.0 = N;
+  M.2 = M;
+  D.3809 = (long int) N.0;
+  D.3810 = (long int) M.2;
+  D.3813 = __builtin_GOMP_loop_nonmonotonic_dynamic_start (0, D.3810, 1, D.3809, &.istart0.4, &.iend0.5);
+  if (D.3813 != 0)
+    goto <bb 10>; [INV]
+  else
+    goto <bb 5>; [INV]
+
+  <bb 10> :
+  .istart0.6 = .istart0.4;
+  i = (int) .istart0.6;
+  .iend0.7 = .iend0.5;
+  D.3817 = (int) .iend0.7;
+
+  <bb 4> :
+  D.3818 = rand ();
+  D.3819 = D.3818 % 6;
+  randomnumber = D.3819 + 1;
+  D.3821 = randomnumber * 100;
+  D.3822 = (unsigned int) D.3821;
+  usleep (D.3822);
+  i = i + 1;
+  if (i < D.3817)
+    goto <bb 4>; [87.50%]
+  else
+    goto <bb 11>; [12.50%]
+
+  <bb 11> :
+  D.3823 = __builtin_GOMP_loop_nonmonotonic_dynamic_next (&.istart0.4, &.iend0.5);
+  if (D.3823 != 0)
+    goto <bb 10>; [INV]
+  else
+    goto <bb 5>; [INV]
+
+  <bb 5> :
+  __builtin_GOMP_loop_end_nowait ();
+
+  <bb 6> :
+  return;
+
+}
+
+
+
+;; Function foo (foo, funcdef_no=6, decl_uid=3759, cgraph_uid=7, symbol_order=6)
+
+Merging blocks 2 and 13
+Merging blocks 2 and 7
+void foo (struct FILE * fp)
+{
+  _Bool D.3804;
+  long int .iend0.7;
+  int D.3803;
+  long int .istart0.6;
+  long int D.3798;
+  long int D.3799;
+  _Bool D.3800;
+  long int .iend0.5;
+  long int .istart0.4;
+  int randomnumber;
+  int M.2;
+  int i;
+  double elapsed_time;
+  struct timespec finish;
+  struct timespec start;
+  int M;
+  int N;
+  struct .omp_data_s.1 .omp_data_o.3;
+
+  <bb 2> :
+  N = 4;
+  M = 100;
+  clock_gettime (0, &start);
+  .omp_data_o.3.M = M;
+  .omp_data_o.3.N = N;
+  __builtin_GOMP_parallel (foo._omp_fn.0, &.omp_data_o.3, 4, 0);
+  .omp_data_o.3 = {CLOBBER};
+  clock_gettime (0, &finish);
+  _1 = finish.tv_nsec;
+  _2 = start.tv_nsec;
+  _3 = _1 - _2;
+  _4 = (double) _3;
+  elapsed_time = _4 / 1.0e+6;
+  fprintf (fp, "%f\n", elapsed_time);
+  printf ("Exec time: %f \n", elapsed_time);
+
+  <bb 3> :
+  start = {CLOBBER(eol)};
+  finish = {CLOBBER(eol)};
+
+  <bb 4> :
+<L1>:
+  return;
+
+}
+
+
+
+;; Function main (main, funcdef_no=7, decl_uid=3769, cgraph_uid=8, symbol_order=7)
+
+int main ()
+{
+  int i;
+  struct FILE * fp;
+  int num_ex;
+  int D.3824;
+
+  <bb 2> :
+  num_ex = 15;
+  fp = fopen ("for_output_3.txt", "w");
+  i = 0;
+  goto <bb 4>; [INV]
+
+  <bb 3> :
+  foo (fp);
+  i = i + 1;
+
+  <bb 4> :
+  if (i < num_ex)
+    goto <bb 3>; [INV]
+  else
+    goto <bb 5>; [INV]
+
+  <bb 5> :
+  D.3824 = 0;
+
+  <bb 6> :
+<L3>:
+  return D.3824;
+
+}
+
+

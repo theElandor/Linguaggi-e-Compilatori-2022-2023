@@ -25,8 +25,13 @@ bool StrengthReductionPass::runOnBasicBlock(BasicBlock &BB) {
         case 1:
 					optimizeInstMul(I);
           break;
+          // b = a * 15
+          // b = a << 4
+          // b = b - a
         case 2:
 					optimizeInstDiv(I);
+          // a = b / 16
+          // a = b >> 4
           break;
         default:
           break;

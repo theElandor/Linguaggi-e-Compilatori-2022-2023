@@ -9,7 +9,7 @@ using namespace llvm;
 bool MIOptimizationPass::runOnBasicBlock(BasicBlock &BB) {
   // Itera attraverso le istruzioni del basic block.
   for(auto iter_inst = BB.begin(); iter_inst != BB.end(); ++iter_inst) {
-    Instruction I = *iter_inst;
+    Instruction &I = *iter_inst;
 		std::string opcd1 = I.getOpcodeName();
 
     // Se l'istruzione ha un operatore binario ed è add/sub.
@@ -32,8 +32,14 @@ bool MIOptimizationPass::runOnBasicBlock(BasicBlock &BB) {
               // Se il secondo operando è uguale in entrambe le istruzioni e
               // le due istruzioni sono diverse (una ad ed una sub).
               if (C1 == C2 && opcd1 != opcd2) {
-                U->replaceAllUsesWith(U->getOperand(0));
+                U->replaceAllUsesWith(I.getOperand(0));
               }
+
+              // b = a + 1
+              // c = b - 1
+              // --> c = a
+
+
             }
           }
         }
